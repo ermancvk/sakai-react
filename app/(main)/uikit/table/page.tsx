@@ -6,7 +6,6 @@ import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Column, ColumnFilterApplyTemplateOptions, ColumnFilterClearTemplateOptions, ColumnFilterElementTemplateOptions } from 'primereact/column';
 import { DataTable, DataTableExpandedRows, DataTableFilterMeta } from 'primereact/datatable';
-import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
@@ -18,6 +17,10 @@ import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useState } from 'react';
 import type { Demo } from '../../../../types/types';
+import { Toolbar } from 'primereact/toolbar';
+import { SplitButton } from 'primereact/splitbutton';
+import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
+
 
 const TableDemo = () => {
     const [customers1, setCustomers1] = useState<Demo.Customer[]>([]);
@@ -59,11 +62,43 @@ const TableDemo = () => {
         setFilters1(_filters1);
         setGlobalFilterValue1(value);
     };
+    const toolbarItems = [
+        {
+            label: 'Save',
+            icon: 'pi pi-check'
+        },
+        {
+            label: 'Update',
+            icon: 'pi pi-sync'
+        },
+        {
+            label: 'Delete',
+            icon: 'pi pi-trash'
+        },
+        {
+            label: 'Home Page',
+            icon: 'pi pi-home'
+        }
+    ];
+    const toolbarLeftTemplate = () => {
+        return (
+            <>
+                <Button label="New" icon="pi pi-plus" style={{ marginRight: '.5em' }} />
+
+                <i className="pi pi-bars p-toolbar-separator" style={{ marginRight: '.5em' }}></i>
+
+                <Button icon="pi pi-check" severity="success" style={{ marginRight: '.5em' }} />
+                <Button icon="pi pi-trash" severity="warning" style={{ marginRight: '.5em' }} />
+                <Button icon="pi pi-print" severity="danger" />
+            </>
+        );
+    };
+    const toolbarRightTemplate = <SplitButton label="Options" icon="pi pi-check" model={toolbarItems} menuStyle={{ width: '12rem' }}></SplitButton>;
 
     const renderHeader1 = () => {
         return (
             <div className="flex justify-content-between">
-                <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter1} />
+                <Button type="button" icon="pi pi-filter-slash" label="Filtrele" outlined onClick={clearFilter1} />
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue1} onChange={onGlobalFilterChange1} placeholder="Keyword Search" />
@@ -362,8 +397,17 @@ const TableDemo = () => {
     return (
         <div className="grid">
             <div className="col-12">
+                <div className='card'>
+                <h5>Eğitim Ekle</h5>
+
+                <Toolbar start={toolbarLeftTemplate} end={toolbarRightTemplate}></Toolbar>
+                </div>
+            </div>
+            <div className="col-12">
                 <div className="card">
-                    <h5>Filter Menu</h5>
+                    <h5>Eğitim Listele</h5>
+
+                    
                     <DataTable
                         value={customers1}
                         paginator
@@ -371,89 +415,27 @@ const TableDemo = () => {
                         showGridlines
                         rows={10}
                         dataKey="id"
-                        filters={filters1}
                         filterDisplay="menu"
                         loading={loading1}
                         responsiveLayout="scroll"
                         emptyMessage="No customers found."
                         header={header1}
                     >
-                        <Column field="name" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} />
-                        <Column header="Country" filterField="country.name" style={{ minWidth: '12rem' }} body={countryBodyTemplate} filter filterPlaceholder="Search by country" filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
                         <Column
-                            header="Agent"
+                            header="Eğitmen"
                             filterField="representative"
                             showFilterMatchModes={false}
-                            filterMenuStyle={{ width: '14rem' }}
                             style={{ minWidth: '14rem' }}
                             body={representativeBodyTemplate}
-                            filter
                             filterElement={representativeFilterTemplate}
                         />
-                        <Column header="Date" filterField="date" dataType="date" style={{ minWidth: '10rem' }} body={dateBodyTemplate} filter filterElement={dateFilterTemplate} />
-                        <Column header="Balance" filterField="balance" dataType="numeric" style={{ minWidth: '10rem' }} body={balanceBodyTemplate} filter filterElement={balanceFilterTemplate} />
-                        <Column field="status" header="Status" filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusFilterTemplate} />
-                        <Column field="activity" header="Activity" showFilterMatchModes={false} style={{ minWidth: '12rem' }} body={activityBodyTemplate} filter filterElement={activityFilterTemplate} />
-                        <Column field="verified" header="Verified" dataType="boolean" bodyClassName="text-center" style={{ minWidth: '8rem' }} body={verifiedBodyTemplate} filter filterElement={verifiedFilterTemplate} />
-                    </DataTable>
-                </div>
-            </div>
-
-            <div className="col-12">
-                <div className="card">
-                    <h5>Frozen Columns</h5>
-                    <ToggleButton checked={idFrozen} onChange={(e) => setIdFrozen(e.value)} onIcon="pi pi-lock" offIcon="pi pi-lock-open" onLabel="Unfreeze Id" offLabel="Freeze Id" style={{ width: '10rem' }} />
-
-                    <DataTable value={customers2} scrollable scrollHeight="400px" loading={loading2} className="mt-3">
-                        <Column field="name" header="Name" style={{ flexGrow: 1, flexBasis: '160px' }} frozen className="font-bold"></Column>
-                        <Column field="id" header="Id" style={{ flexGrow: 1, flexBasis: '100px' }} frozen={idFrozen} alignFrozen="left" bodyClassName={classNames({ 'font-bold': idFrozen })}></Column>
-                        <Column field="country.name" header="Country" style={{ flexGrow: 1, flexBasis: '200px' }} body={countryBodyTemplate}></Column>
-                        <Column field="date" header="Date" style={{ flexGrow: 1, flexBasis: '200px' }} body={dateBodyTemplate}></Column>
-                        <Column field="company" header="Company" style={{ flexGrow: 1, flexBasis: '200px' }}></Column>
-                        <Column field="status" header="Status" style={{ flexGrow: 1, flexBasis: '200px' }} body={statusBodyTemplate}></Column>
-                        <Column field="activity" header="Activity" style={{ flexGrow: 1, flexBasis: '200px' }}></Column>
-                        <Column field="representative.name" header="Representative" style={{ flexGrow: 1, flexBasis: '200px' }} body={representativeBodyTemplate}></Column>
-                        <Column field="balance" header="Balance" body={balanceTemplate} frozen style={{ flexGrow: 1, flexBasis: '120px' }} className="font-bold" alignFrozen="right"></Column>
-                    </DataTable>
-                </div>
-            </div>
-
-            <div className="col-12">
-                <div className="card">
-                    <h5>Row Expand</h5>
-                    <DataTable value={products} expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)} responsiveLayout="scroll" rowExpansionTemplate={rowExpansionTemplate} dataKey="id" header={header}>
-                        <Column expander style={{ width: '3em' }} />
-                        <Column field="name" header="Name" sortable />
-                        <Column header="Image" body={imageBodyTemplate} />
-                        <Column field="price" header="Price" sortable body={priceBodyTemplate} />
-                        <Column field="category" header="Category" sortable />
-                        <Column field="rating" header="Reviews" sortable body={ratingBodyTemplate} />
-                        <Column field="inventoryStatus" header="Status" sortable body={statusBodyTemplate2} />
-                    </DataTable>
-                </div>
-            </div>
-
-            <div className="col-12">
-                <div className="card">
-                    <h5>Subheader Grouping</h5>
-                    <DataTable
-                        value={customers3}
-                        rowGroupMode="subheader"
-                        groupRowsBy="representative.name"
-                        sortMode="single"
-                        sortField="representative.name"
-                        sortOrder={1}
-                        scrollable
-                        scrollHeight="400px"
-                        rowGroupHeaderTemplate={headerTemplate}
-                        rowGroupFooterTemplate={footerTemplate}
-                        responsiveLayout="scroll"
-                    >
-                        <Column field="name" header="Name" style={{ minWidth: '200px' }}></Column>
-                        <Column field="country" header="Country" body={countryBodyTemplate} style={{ minWidth: '200px' }}></Column>
-                        <Column field="company" header="Company" style={{ minWidth: '200px' }}></Column>
-                        <Column field="status" header="Status" body={statusBodyTemplate} style={{ minWidth: '200px' }}></Column>
-                        <Column field="date" header="Date" style={{ minWidth: '200px' }}></Column>
+                        <Column header="Süre" filterField="date" dataType="date" style={{ minWidth: '10rem' }} body={dateBodyTemplate}  filterElement={dateFilterTemplate} />
+                        <Column header="Okul" filterField="balance" dataType="numeric" style={{ minWidth: '10rem' }} body={balanceBodyTemplate}  filterElement={balanceFilterTemplate} />
+                        <Column field="Eğitim Adı" header="Eğitim Adı" filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={"Matematik"} />
+                        <Column field="Eğitim Türü" header="Eğitim Türü" dataType="boolean" bodyClassName="text-center" style={{ minWidth: '8rem' }} body={"Lise"}  filterElement={verifiedFilterTemplate} />
+                        <Column field="Katılımcı" header="Katılımcı" dataType="boolean" bodyClassName="text-center" style={{ minWidth: '8rem' }} body={"Amy Elsner"}  filterElement={verifiedFilterTemplate} />
+                        <Column field="Lokasyon" header="Lokasyon" dataType="boolean" bodyClassName="text-center" style={{ minWidth: '8rem' }} body={"İstanbul"}  filterElement={verifiedFilterTemplate} />
+                        <Column field="Süre" header="Kategori" dataType="boolean" bodyClassName="text-center" style={{ minWidth: '8rem' }} body={verifiedBodyTemplate}  filterElement={verifiedFilterTemplate} />
                     </DataTable>
                 </div>
             </div>

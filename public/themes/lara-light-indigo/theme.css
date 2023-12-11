@@ -1092,7 +1092,7 @@
   border-radius: 6px;
 }
 .p-inputtext:enabled:hover {
-  border-color: #6366F1;
+  border-color: #17563a;
 }
 .p-inputtext:enabled:focus {
   outline: 0 none;
@@ -1781,17 +1781,17 @@
 
 .p-button {
   color: #ffffff;
-  background: #6366F1;
-  border: 1px solid #6366F1;
+  background: #17563a;
+  border: 1px solid #17563a;
   padding: 0.75rem 1.25rem;
   font-size: 1rem;
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
   border-radius: 6px;
 }
 .p-button:enabled:hover, .p-button:not(button):not(a):not(.p-disabled):hover {
-  background: #4F46E5;
+  background: #017f63;
   color: #ffffff;
-  border-color: #4F46E5;
+  border-color: #017f63;
 }
 .p-button:enabled:active, .p-button:not(button):not(a):not(.p-disabled):active {
   background: #4338CA;
@@ -1800,17 +1800,17 @@
 }
 .p-button.p-button-outlined {
   background-color: transparent;
-  color: #6366F1;
+  color: #17563a;
   border: 1px solid;
 }
 .p-button.p-button-outlined:enabled:hover, .p-button.p-button-outlined:not(button):not(a):not(.p-disabled):hover {
   background: rgba(99, 102, 241, 0.04);
-  color: #6366F1;
+  color: #17563a;
   border: 1px solid;
 }
 .p-button.p-button-outlined:enabled:active, .p-button.p-button-outlined:not(button):not(a):not(.p-disabled):active {
   background: rgba(99, 102, 241, 0.16);
-  color: #6366F1;
+  color: #17563a;
   border: 1px solid;
 }
 .p-button.p-button-outlined.p-button-plain {
@@ -6231,9 +6231,7 @@
   background-color: #6366F1;
 }
 
-.p-button:focus {
-  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #b1b3f8, 0 1px 2px 0 rgb(0, 0, 0);
-}
+
 .p-button.p-button-secondary:enabled:focus {
   box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #b0b9c6, 0 1px 2px 0 rgb(0, 0, 0);
 }

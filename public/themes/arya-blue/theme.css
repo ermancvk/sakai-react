@@ -1800,7 +1800,7 @@
 }
 .p-button.p-button-outlined {
   background-color: transparent;
-  color: #64B5F6;
+  color: #17563a;
   border: 1px solid;
 }
 .p-button.p-button-outlined:enabled:hover, .p-button.p-button-outlined:not(button):not(a):not(.p-disabled):hover {
