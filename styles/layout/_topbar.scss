@@ -20,10 +20,10 @@
         font-weight: 500;
         width: 300px;
         border-radius: 12px;
+        justify-content: center;
 
         img {
-            height: 2.5rem;
-            margin-right: .5rem;
+            width: 55%;
         }
 
         &:focus {
